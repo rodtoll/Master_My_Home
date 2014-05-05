@@ -1,9 +1,14 @@
 package com.troublex3.mastermyhome.app;
 
+import java.util.UUID;
+
 /**
  * Created by rodtoll on 4/12/14.
  */
 public class T3Entity {
+
+    public UUID getId()  { return this.mId; }
+    public void setId(UUID id) { this.mId = id; }
 
     public String getName() {
         return this.mName;
@@ -15,6 +20,7 @@ public class T3Entity {
 
     protected String mName;
     protected ISYNode mNode;
+    protected UUID mId;
 
     public ISYNode getNode() {
         return this.mNode;

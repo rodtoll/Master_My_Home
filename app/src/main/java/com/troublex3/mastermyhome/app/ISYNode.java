@@ -61,4 +61,8 @@ public class ISYNode {
     protected ArrayList<ISYNode> mChildNodes;
     protected ISYNodeType mNodeType;
 
+    @Override
+    public String toString() {
+        return mNodeName + " [" + mNodeAddress + "]";
+    }
 }

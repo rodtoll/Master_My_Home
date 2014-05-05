@@ -60,6 +60,7 @@ public class ISYController {
 
     // Maps from device address to device data
     private HashMap<String,ISYNode> mDeviceMap;
+    private ISYNode[] mDeviceList;
 
     public static ISYController get(Context context) {
         if(sIsyController == null) {

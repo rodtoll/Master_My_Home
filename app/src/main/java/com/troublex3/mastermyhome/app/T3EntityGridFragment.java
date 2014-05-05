@@ -1,13 +1,12 @@
 package com.troublex3.mastermyhome.app;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class T3EntityGridFragment extends Fragment {
 
+    private static final Integer INTENT_EDIT_ENTITY = 100;
     private static final String ARG_GROUP_INDEX = "groupIndex";
 
     private GridView mDeviceGridView;
@@ -60,10 +61,16 @@ public class T3EntityGridFragment extends Fragment {
 
     }
 
-    @Override
+/*    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_t3_entity_grid, menu);
+    }*/
+
+    protected void launchEditor(UUID id) {
+        Intent i = new Intent(getActivity(), T3EntityEditorActivity.class);
+        i.putExtra(T3EntityEditorActivity.ARG_ENTITY_ID, id);
+        startActivityForResult(i, INTENT_EDIT_ENTITY);
     }
 
     @Override
@@ -72,10 +79,30 @@ public class T3EntityGridFragment extends Fragment {
             case R.id.menu_item_refresh:
                 //refreshDevices();
                 return true;
+            case R.id.menu_item_new_group:
+                T3EntityGroup group = T3EntityDataStore.get(getActivity()).newGroup("New Group");
+                this.mAdapter.add(group);
+                this.mAdapter.notifyDataSetChanged();
+                return true;
+            case R.id.menu_item_add_device:
+                T3Entity entity = mGroup.newSubEntity("New Entity", null);
+                launchEditor(entity.getId());
+                return true;
+            case R.id.menu_item_test:
+                UUID id = this.mAdapter.getItem(0).getId();
+                launchEditor(id);
+                return true;
             case R.id.menu_item_settings:
             default:
                 return super.onOptionsItemSelected(item);
 
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == INTENT_EDIT_ENTITY) {
+            this.mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -98,8 +125,13 @@ public class T3EntityGridFragment extends Fragment {
         return v;
     }
 
+    protected T3EntityItemAdapter mAdapter;
+    protected T3EntityGroup mGroup;
+
     private void setupPageAdapter() {
-        mDeviceGridView.setAdapter(new T3EntityItemAdapter(T3EntityDataStore.get(getActivity()).getGroups().get(mGroupIndex).getSubEntities()));
+        mGroup = T3EntityDataStore.get(getActivity()).getGroups().get(mGroupIndex);
+        mAdapter = new T3EntityItemAdapter(mGroup.getSubEntities());
+        mDeviceGridView.setAdapter(mAdapter);
     }
 
     protected String mCommand;
@@ -134,6 +166,9 @@ public class T3EntityGridFragment extends Fragment {
     }
 
     private int GetImageResourceForEntityType(T3Entity entity) {
+        if(entity.getNode() == null ) {
+            return R.drawable.ic_launcher;
+        }
         if(entity.getNode().getNodeType() == ISYNode.ISYNodeType.DEVICE) {
             ISYDevice device = (ISYDevice) entity.getNode();
             Boolean isOff = device.getStatus().equals("Off");

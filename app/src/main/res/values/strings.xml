@@ -8,4 +8,8 @@
     <string name="main_screen_auto_checkbox_text">Auto Select Group Based On BTLE</string>
     <string name="settings_option_name">Settings</string>
     <string name="refresh_option_name">Refresh</string>
+    <string name="title_activity_t3_entity_editor">T3EntityEditorActivity</string>
+    <string name="device_name_none_selected">[NULL]</string>
+    <string name="device_address_none_selected">[NULL]</string>
+
 </resources>

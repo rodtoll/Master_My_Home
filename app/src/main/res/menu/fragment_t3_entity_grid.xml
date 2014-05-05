@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_item_new_group"
+        android:title="New Group"/>
+    <item android:id="@+id/menu_item_add_device"
+        android:title="Add Device"/>
     <item android:id="@+id/menu_item_settings"
         android:title="@string/settings_option_name"/>
     <item android:id="@+id/menu_item_refresh"
         android:title="@string/refresh_option_name"/>
+    <item android:id="@+id/menu_item_test"
+        android:title="Test"/>
+
 </menu>

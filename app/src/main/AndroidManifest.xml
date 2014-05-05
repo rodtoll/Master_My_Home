@@ -18,6 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.troublex3.mastermyhome.app.T3EntityEditorActivity"
+            android:label="@string/title_activity_t3_entity_editor" >
+        </activity>
+        <activity
+            android:name="com.troublex3.mastermyhome.app.ISYDeviceSelectorActivity"
+            android:label="Device Selector" >
+        </activity>
+
     </application>
 
 </manifest>
